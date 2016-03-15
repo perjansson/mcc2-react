@@ -55,11 +55,11 @@ module.exports = {
 		]
 	},
 	devServer: {
-		contentBase: "./public",
-			noInfo: true, //  --no-info option
-			hot: true,
-			inline: true
-		},
+		contentBase: "./",
+		noInfo: true, //  --no-info option
+		hot: true,
+		inline: true
+	},
 	plugins: [
 		new webpack.NoErrorsPlugin()
 	]

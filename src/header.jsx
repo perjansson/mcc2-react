@@ -5,7 +5,7 @@ export default class Header extends React.Component {
     return (
       <div className="container text-center animated bounceInDown">
 		    <header>
-		      <h1>Meeting Cost Calculator <strong>2 - React</strong></h1>
+		      <h1>Meeting Cost Calculator <strong>2</strong></h1>
 		    </header>
 		  </div>
     );
