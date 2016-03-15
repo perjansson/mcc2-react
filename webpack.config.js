@@ -31,7 +31,7 @@ module.exports = {
 				loader: "file"
 			},
 			{
-				test: /\.(woff|woff2)$/,
+				test: /\.(woff|woff2)(\?\S*)?$/,
 				loader: "url?prefix=font/&limit=5000"
 			},
 			{
