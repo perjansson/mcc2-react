@@ -1,3 +1,4 @@
+/* App */
 * {
   font-family: 'Montserrat', serif;
 }
@@ -16,7 +17,7 @@ h1 {
 h1 strong {
   font-size: 50px;
 }
-@media only screen and (min-width : 480px) {
+@media only screen and (min-width: 480px) {
   h1 {
     font-size: 80px;
     margin-top: 10px;
@@ -24,5 +25,53 @@ h1 strong {
   }
   h1 strong {
     font-size: 100px;
+  }
+}
+
+/* Navigation */
+nav {
+  margin-bottom: 20px;
+}
+nav > .row {
+  margin-top: 30px;
+}
+nav button {
+  margin: 0px 3px;
+}
+.nav button:focus {
+  outline: 0;
+}
+nav button.router-link-active {
+  background-color: #286090;
+  border-color: #204d74;
+}
+.btn-mcc {
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 20px 0;
+}
+@media only screen and (min-width: 480px) {
+  nav {
+    margin-bottom: 40px;
+  }
+  nav button {
+    margin: 0px 5px;
+  }
+  .btn-mcc {
+    font-size: 26px;
+    padding: 13px 20px;
+    border-radius: 8px;
+  }
+  hr {
+    margin: 50px 0;
   }
 }
