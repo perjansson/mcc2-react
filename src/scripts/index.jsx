@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from './header';
 import Navigation from './navigation';
+import Meeting from './meeting/meeting';
 
 export class App extends React.Component {
 	render() {
@@ -13,6 +14,7 @@ export class App extends React.Component {
       <div className="container text-center animated bounceInDown">
 				<Header/>
 				<Navigation/>
+				<Meeting/>
 			</div>
 		);
 	}
