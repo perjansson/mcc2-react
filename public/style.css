@@ -1,0 +1,28 @@
+* {
+  font-family: 'Montserrat', serif;
+}
+body {
+  font-size: 30px;
+  color: gray;
+  text-shadow: 1px 1px 0px #E3E3E3;
+  background-color: #FAF3DC;
+}
+h1 {
+  font-size: 50px;
+  color: #F74848;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+h1 strong {
+  font-size: 50px;
+}
+@media only screen and (min-width : 480px) {
+  h1 {
+    font-size: 80px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  h1 strong {
+    font-size: 100px;
+  }
+}
