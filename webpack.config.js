@@ -4,12 +4,12 @@ var path = require('path');
 module.exports = {
 	context: __dirname,
 	entry: [
-		'./src/index.jsx' // Your appʼs entry point
+		'./src/scripts/index.jsx' // Your appʼs entry point
 	],
 	devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
 	output: {
-		path: path.join(__dirname, 'public'),
-		publicPath: "public/",
+		path: path.join(__dirname, 'dist'),
+		publicPath: "dist/",
 		filename: 'bundle.js'
 	},
 	resolve: {
