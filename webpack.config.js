@@ -2,12 +2,14 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
+	context: __dirname,
 	entry: [
 		'./src/index.jsx' // Your appʼs entry point
 	],
 	devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
 	output: {
 		path: path.join(__dirname, 'public'),
+		publicPath: "public/",
 		filename: 'bundle.js'
 	},
 	resolve: {
