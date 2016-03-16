@@ -136,10 +136,10 @@
 		_react2.default.createElement(
 			_reactRouter.Route,
 			{ name: "app", path: "/", component: App },
+			_react2.default.createElement(_reactRouter.IndexRoute, { component: _meeting2.default }),
 			_react2.default.createElement(_reactRouter.Route, { name: "meeting", path: "/meeting", component: _meeting2.default }),
 			_react2.default.createElement(_reactRouter.Route, { name: "toplist", path: "/toplist", component: _toplist2.default }),
-			_react2.default.createElement(_reactRouter.Route, { name: "about", path: "/about", component: _about2.default }),
-			_react2.default.createElement(_reactRouter.Redirect, { from: "/", to: "/meeting" })
+			_react2.default.createElement(_reactRouter.Route, { name: "about", path: "/about", component: _about2.default })
 		)
 	), document.querySelector("#mccApp"));
 	
@@ -25641,7 +25641,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/* App */\n* {\n  font-family: 'Montserrat', serif;\n}\nbody {\n  font-size: 30px;\n  color: gray;\n  text-shadow: 1px 1px 0px #E3E3E3;\n  background-color: #FAF3DC;\n}\nh1 {\n  font-size: 50px;\n  color: #489DF7;\n  margin-top: 20px;\n  margin-bottom: 0;\n}\nh1 strong {\n  font-size: 50px;\n}\n@media only screen and (min-width: 480px) {\n  h1 {\n    font-size: 80px;\n    margin-top: 10px;\n    margin-bottom: 20px;\n  }\n  h1 strong {\n    font-size: 100px;\n  }\n}\n\n/* Navigation */\nnav {\n  margin-bottom: 20px;\n}\nnav > .row {\n  margin-top: 30px;\n}\nnav button {\n  margin: 0px 3px;\n}\n.nav button:focus {\n  outline: 0;\n}\nnav button.router-link-active {\n  background-color: #286090;\n  border-color: #204d74;\n}\n.btn-mcc {\n  font-size: 16px;\n  padding: 8px 12px;\n  border-radius: 8px;\n  margin-left: 10px;\n  margin-right: 10px;\n}\nhr {\n  border: 0;\n  height: 0;\n  border-top: 1px solid rgba(0, 0, 0, 0.1);\n  border-bottom: 1px solid rgba(255, 255, 255, 0.3);\n  margin: 20px 0;\n}\n@media only screen and (min-width: 480px) {\n  nav {\n    margin-bottom: 40px;\n  }\n  nav button {\n    margin: 0px 5px;\n  }\n  .btn-mcc {\n    font-size: 26px;\n    padding: 13px 20px;\n    border-radius: 8px;\n  }\n  hr {\n    margin: 50px 0;\n  }\n}\n", ""]);
+	exports.push([module.id, "/* App */\n* {\n  font-family: 'Montserrat', serif;\n}\nbody {\n  font-size: 30px;\n  color: gray;\n  background-color: #FAF3DC;\n}\nh1 {\n  font-size: 50px;\n  color: #489DF7;\n  text-shadow: 1px 1px 0px #E3E3E3;\n  margin-top: 20px;\n  margin-bottom: 0;\n}\nh1 strong {\n  font-size: 50px;\n}\n@media only screen and (min-width: 480px) {\n  h1 {\n    font-size: 80px;\n    margin-top: 10px;\n    margin-bottom: 20px;\n  }\n  h1 strong {\n    font-size: 100px;\n  }\n}\n\n/* Navigation */\nnav {\n  margin-bottom: 20px;\n}\nnav > .row {\n  margin-top: 30px;\n}\nnav button {\n  margin: 0px 3px;\n}\n.nav button:focus {\n  outline: 0;\n}\nnav button.router-link-active {\n  background-color: #286090;\n  border-color: #204d74;\n}\n.btn-mcc {\n  font-size: 16px;\n  padding: 8px 12px;\n  border-radius: 8px;\n  margin-left: 10px;\n  margin-right: 10px;\n}\nhr {\n  border: 0;\n  height: 0;\n  border-top: 1px solid rgba(0, 0, 0, 0.1);\n  border-bottom: 1px solid rgba(255, 255, 255, 0.3);\n  margin: 20px 0;\n}\n@media only screen and (min-width: 480px) {\n  nav {\n    margin-bottom: 40px;\n  }\n  nav button {\n    margin: 0px 5px;\n  }\n  .btn-mcc {\n    font-size: 26px;\n    padding: 13px 20px;\n    border-radius: 8px;\n  }\n  hr {\n    margin: 50px 0;\n  }\n}\n", ""]);
 	
 	// exports
 
