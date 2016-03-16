@@ -8,6 +8,7 @@ export default class Meeting extends React.Component {
   constructor() {
     super();
     this.CurrencyStore = new CurrencyStore();
+    this.timer = null;
     this.state = {
       currencies: [],
       meeting: null
@@ -35,6 +36,12 @@ export default class Meeting extends React.Component {
       currencies: this.state.currencies,
       meeting: meeting
     });
+    this.timer = setInterval(() => {
+      this.setState({
+        currencies: this.state.currencies,
+        meeting: this.state.meeting
+      });
+    }, 50);
   }
 
   onStopMeeting(meeting) {
