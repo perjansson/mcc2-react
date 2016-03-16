@@ -4,7 +4,7 @@ require("../../node_modules/font-awesome/css/font-awesome.min.css")
 require("../styles/style.css")
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, hashHistory} from 'react-router';
+import {Router, Route, IndexRoute, hashHistory} from 'react-router';
 import Header from './header';
 import Navigation from './navigation';
 import Meeting from './meeting/meeting';
@@ -17,18 +17,19 @@ export class App extends React.Component {
       <div className="container text-center animated bounceInDown">
 				<Header/>
 				<Navigation/>
-				<Meeting/>
+        {this.props.children}
 			</div>
 		);
 	}
 }
 
-/*ReactDOM.render(<App/>, document.querySelector("#mccApp"));*/
-
 ReactDOM.render((
   <Router history={hashHistory}>
-    <Route path="/" component={App}/>
-    <Route path="/toplist" component={TopList}/>
-    <Route path="/about" component={About}/>
+    <Route name="app" path="/" component={App}>
+			<IndexRoute component={Meeting} />
+	    <Route name="meeting" path="/meeting" component={Meeting}/>
+	    <Route name="toplist" path="/toplist" component={TopList}/>
+	    <Route name="about" path="/about" component={About}/>
+		</Route>
   </Router>
 ), document.querySelector("#mccApp"))

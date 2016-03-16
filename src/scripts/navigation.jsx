@@ -7,7 +7,7 @@ export default class Navigation extends React.Component {
       <nav className="row animated fadeIn">
         <div className="row">
           <div className="col-xs-12 text-center" role="nav">
-            <Link to="/" activeClassName="active" className="btn btn-primary btn-mcc"><i className="fa fa-clock-o"></i> Meetings</Link>
+            <Link to="/meeting" activeClassName="active" className="btn btn-primary btn-mcc"><i className="fa fa-clock-o"></i> Meetings</Link>
             <Link to="/toplist" activeClassName="active" className="btn btn-primary btn-mcc"><i className="fa fa-list"></i> Top list</Link>
             <Link to="/about" activeClassName="active" className="btn btn-primary btn-mcc"><i className="fa fa-users"></i> About</Link>
           </div>
