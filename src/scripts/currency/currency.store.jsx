@@ -1,4 +1,4 @@
-export default class CurrencyStore {
+class CurrencyStore {
 
   constructor() {
     this.currencies = currencies.sort((c1, c2) => c1.name < c2.name ? -1 : 1);
@@ -676,3 +676,5 @@ var currencies = [
         "name": "Zimbabwean Dollar"
     }
 ];
+
+export default new CurrencyStore();

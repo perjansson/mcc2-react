@@ -2,30 +2,26 @@ import React from 'react';
 import MeetingInput from './meeting-input.component';
 import MeetingOutput from './meeting-output.component';
 import CurrencyStore from '../currency/currency.store';
+import MeetingStore from './meeting.store';
 
 export default class Meeting extends React.Component {
 
   constructor() {
     super();
-    this.CurrencyStore = new CurrencyStore();
     this.timer = null;
     this.state = {
-      currencies: [],
-      meeting: null
+      currencies: CurrencyStore.getCurrencies(),
+      meeting: MeetingStore.getMeeting()
     };
-  }
-
-  componentDidMount() {
-    var currencies = this.CurrencyStore.getCurrencies();
-    this.setState({
-      currencies: currencies
-    })
+    if (this.state.meeting.isStarted()) {
+      this.startPollingMeetingCost()
+    }
   }
 
   render() {
     return (
       <div>
-        <MeetingInput currencies={this.state.currencies} onStart={this.onStartMeeting.bind(this)} onStop={this.onStopMeeting.bind(this)}/>
+        <MeetingInput currencies={this.state.currencies} meeting={this.state.meeting} onStart={this.onStartMeeting.bind(this)} onStop={this.onStopMeeting.bind(this)}/>
         <MeetingOutput meeting={this.state.meeting}/>
       </div>
     )
@@ -36,6 +32,22 @@ export default class Meeting extends React.Component {
       currencies: this.state.currencies,
       meeting: meeting
     });
+    this.startPollingMeetingCost();
+  }
+
+  onStopMeeting(meeting) {
+    this.setState({
+      currencies: this.state.currencies,
+      meeting: meeting
+    });
+    this.stopPollingMeetingCost();
+  }
+
+  componentWillUnmount() {
+    this.stopPollingMeetingCost();
+  }
+
+  startPollingMeetingCost() {
     this.timer = setInterval(() => {
       this.setState({
         currencies: this.state.currencies,
@@ -44,11 +56,8 @@ export default class Meeting extends React.Component {
     }, 50);
   }
 
-  onStopMeeting(meeting) {
-    this.setState({
-      currencies: this.state.currencies,
-      meeting: meeting
-    });
+  stopPollingMeetingCost() {
+    clearInterval(this.timer);
   }
 
 }

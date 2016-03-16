@@ -3,10 +3,10 @@ import Meeting from './meeting'
 
 export default class MeetingInput extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      meeting: new Meeting({key: 'BTC', name: 'Bitcoin'})
+      meeting: props.meeting
     }
   }
 
