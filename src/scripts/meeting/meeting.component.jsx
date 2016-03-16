@@ -1,9 +1,10 @@
 import React from 'react';
 import MeetingInput from './meeting-input.component';
 import MeetingOutput from './meeting-output.component';
-import CurrencyStore from './currency-store';
+import CurrencyStore from './currency.store';
 
 export default class Meeting extends React.Component {
+
   constructor() {
     super();
     this.CurrencyStore = new CurrencyStore();
@@ -27,4 +28,5 @@ export default class Meeting extends React.Component {
       </div>
     )
   }
+  
 }
