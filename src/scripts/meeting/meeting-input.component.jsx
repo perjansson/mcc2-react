@@ -1,14 +1,13 @@
 import React from 'react';
+import Meeting from './meeting'
 
 export default class MeetingInput extends React.Component {
 
   constructor() {
     super();
-    this.meeting = {
-      numberOfAttendees: null,
-      averageHourlyRate: null,
-      currency: null
-    };
+    this.state = {
+      meeting : new Meeting()
+    }
   }
 
   render() {
@@ -19,7 +18,7 @@ export default class MeetingInput extends React.Component {
             <div className="row meeting-mandatory-info">
               <div className="form-group col-xs-12 col-sm-4">
                 <input id="numberOfAttendees"
-                  value={this.meeting.numberOfAttendees}
+                  value={this.state.meeting.numberOfAttendees}
                   onChange={this.onNumberOfAttendeesChange.bind(this)}
                   type="number"
                   min="0"
@@ -30,7 +29,7 @@ export default class MeetingInput extends React.Component {
               </div>
               <div className="form-group col-xs-12 col-sm-4">
                 <input id="averageHourlyRate"
-                  value={this.meeting.averageHourlyRate}
+                  value={this.state.meeting.averageHourlyRate}
                   onChange={this.onAverageHourlyRateChange.bind(this)}
                   type="number"
                   min="0"
@@ -41,7 +40,7 @@ export default class MeetingInput extends React.Component {
               </div>
               <div className="form-group col-xs-12 col-sm-4">
                 <select id="currency"
-                  defaultValue={this.meeting.currency}
+                  defaultValue={this.state.meeting.currency}
                   onChange={this.onCurrencyChange.bind(this)}
                   className="form-control mcc-input">
                   {
@@ -53,19 +52,23 @@ export default class MeetingInput extends React.Component {
               </div>
             </div>
 
-            { this.isValidMeeting() ?
+            { this.state.meeting.isValid() ?
               <div className="row meeting-control">
                 <div className="form-group col-xs-12 text-center animated tada">
-                  <span id="startButton">
-                    <button className="btn btn-link" title="Start" onClick={this.onStartClick.bind(this)}>
-                      <i className="fa fa-play"></i>
-                    </button>
-                  </span>
-                  <span id="stopButton" className="animated fadeIn">
-                    <button className="btn btn-link" title="Stop" onClick={this.onStopClick.bind(this)}>
-                      <i className="fa fa-stop"></i>
-                    </button>
-                  </span>
+                  { this.state.meeting.isNotStarted() || this.state.meeting.isStopped() ?
+                    <span id="startButton">
+                      <button className="btn btn-link" title="Start" onClick={this.onStartClick.bind(this)}>
+                        <i className="fa fa-play"></i>
+                      </button>
+                    </span> : null
+                  }
+                  { this.state.meeting.isStarted() ?
+                    <span id="stopButton" className="animated fadeIn">
+                      <button className="btn btn-link" title="Stop" onClick={this.onStopClick.bind(this)}>
+                        <i className="fa fa-stop"></i>
+                      </button>
+                    </span> : null
+                  }
                 </div>
               </div> : null
             }
@@ -75,30 +78,28 @@ export default class MeetingInput extends React.Component {
     )
   }
 
-  isValidMeeting() {
-    return this.meeting.numberOfAttendees && this.meeting.averageHourlyRate && this.meeting.currency;
-  }
-
   onNumberOfAttendeesChange(event) {
-    this.meeting.numberOfAttendees = event.target.value;
-    this.setState({meeting: this.meeting});
+    this.state.meeting.numberOfAttendees = event.target.value;
+    this.setState({meeting: this.state.meeting});
   }
 
   onAverageHourlyRateChange(event) {
-    this.meeting.averageHourlyRate = event.target.value;
-    this.setState({meeting: this.meeting});
+    this.state.meeting.averageHourlyRate = event.target.value;
+    this.setState({meeting: this.state.meeting});
   }
 
   onCurrencyChange(event) {
-    this.meeting.currency = event.target.value;
-    this.setState({meeting: this.meeting});
+    this.state.meeting.currency = event.target.value;
+    this.setState({meeting: this.state.meeting});
   }
 
   onStartClick() {
-    console.log('onStartClick');
+    this.state.meeting.start();
+    this.props.onStart(this.state.meeting);
   }
 
   onStopClick() {
-    console.log('onStopClick');
+    this.state.meeting.stop();
+    this.props.onStop(this.state.meeting);
   }
 }
