@@ -2,6 +2,7 @@ import React from 'react';
 
 export default class MeetingInput extends React.Component {
   render() {
+    console.log('this.props', this.props.currencies);
     return (
       <article>
         <section>
@@ -30,8 +31,6 @@ export default class MeetingInput extends React.Component {
                   required
                   className="form-control mcc-input"
                   placeholder="Currency">
-                  <option value="BTC">Bitcoin</option>
-                  <option value="SEK">Swedish Krona</option>
                 </select>
               </div>
             </div>
