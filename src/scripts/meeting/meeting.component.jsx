@@ -1,6 +1,6 @@
 import React from 'react';
-import MeetingInput from './meeting-input';
-import MeetingOutput from './meeting-output';
+import MeetingInput from './meeting-input.component';
+import MeetingOutput from './meeting-output.component';
 import CurrencyStore from './currency-store';
 
 export default class Meeting extends React.Component {

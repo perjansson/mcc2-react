@@ -6,11 +6,11 @@ require("../styles/style.css")
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, hashHistory} from 'react-router';
-import Header from './header';
-import Navigation from './navigation';
-import Meeting from './meeting/meeting';
-import TopList from './toplist/toplist';
-import About from './about/about';
+import Header from './common/header.component';
+import Navigation from './common/navigation.component';
+import Meeting from './meeting/meeting.component';
+import TopList from './toplist/toplist.component';
+import About from './about/about.component';
 
 export class App extends React.Component {
 	render() {
