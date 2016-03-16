@@ -43,10 +43,9 @@ export default class MeetingInput extends React.Component {
                   defaultValue={this.state.meeting.currency}
                   onChange={this.onCurrencyChange.bind(this)}
                   className="form-control mcc-input">
+                  <option value=""></option>
                   {
-                    this.props.currencies.map(function(currency) {
-                      return <option key={currency.key} value={currency.name}>{currency.name}</option>;
-                    })
+                    this.props.currencies.map((currency) => (<option key={currency.key} value={currency.key}>{currency.name}</option>))
                   }
                 </select>
               </div>
@@ -89,7 +88,8 @@ export default class MeetingInput extends React.Component {
   }
 
   onCurrencyChange(event) {
-    this.state.meeting.currency = event.target.value;
+    this.state.meeting.currency = this.props.currencies.find(currency => currency.key === event.target.value)
+    console.log('this.state.meeting.currency', this.state.meeting.currency);
     this.setState({meeting: this.state.meeting});
   }
 
