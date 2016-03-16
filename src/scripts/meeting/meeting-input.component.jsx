@@ -8,6 +8,10 @@ export default class MeetingInput extends React.Component {
     this.state = {
       meeting : new Meeting()
     }
+    this.state.meeting.currency = {
+      key: 'BTC',
+      name: 'Bitcoin'
+    }
   }
 
   render() {
@@ -40,7 +44,7 @@ export default class MeetingInput extends React.Component {
               </div>
               <div className="form-group col-xs-12 col-sm-4">
                 <select id="currency"
-                  defaultValue={this.state.meeting.currency}
+                  value={this.state.meeting.currency.key}
                   onChange={this.onCurrencyChange.bind(this)}
                   className="form-control mcc-input">
                   <option value=""></option>
