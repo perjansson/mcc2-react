@@ -1,8 +1,8 @@
 import React from 'react';
+import Select from 'react-select';
 
 export default class MeetingInput extends React.Component {
   render() {
-    console.log('this.props', this.props.currencies);
     return (
       <article>
         <section>
@@ -27,10 +27,12 @@ export default class MeetingInput extends React.Component {
                   placeholder="Average hourly rate"/>
               </div>
               <div className="form-group col-xs-12 col-sm-4">
-                <select id="currency"
-                  required
-                  className="form-control mcc-input"
-                  placeholder="Currency">
+                <select className="form-control mcc-input">
+                  {
+                    this.props.currencies.map(function(currency) {
+                      return <option key={currency.key} value={currency.name}>{currency.name}</option>;
+                    })
+                  }
                 </select>
               </div>
             </div>

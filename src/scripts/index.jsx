@@ -1,6 +1,7 @@
 require("../../node_modules/bootstrap/dist/css/bootstrap.min.css");
-require("../../node_modules/animate.css/animate.min.css")
-require("../../node_modules/font-awesome/css/font-awesome.min.css")
+require("../../node_modules/animate.css/animate.min.css");
+require("../../node_modules/font-awesome/css/font-awesome.min.css");
+require("../../node_modules/react-select/dist/react-select.min.css");
 require("../styles/style.css")
 import React from 'react';
 import ReactDOM from 'react-dom';
