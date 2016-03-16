@@ -1,14 +1,15 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 export default class Navigation extends React.Component {
   render() {
     return (
       <nav className="row animated fadeIn">
         <div className="row">
-          <div className="col-xs-12 text-center">
-            <button className="btn btn-primary btn-mcc disabled"><i className="fa fa-clock-o"></i> Meeting</button>
-            <button className="btn btn-primary btn-mcc disabled"><i className="fa fa-list"></i> Top list</button>
-            <button className="btn btn-primary btn-mcc disabled"><i className="fa fa-users"></i> About</button>
+          <div className="col-xs-12 text-center" role="nav">
+            <Link to="/" activeClassName="active" className="btn btn-primary btn-mcc"><i className="fa fa-clock-o"></i> Meetings</Link>
+            <Link to="/toplist" activeClassName="active" className="btn btn-primary btn-mcc"><i className="fa fa-list"></i> Top list</Link>
+            <Link to="/about" activeClassName="active" className="btn btn-primary btn-mcc"><i className="fa fa-users"></i> About</Link>
           </div>
         </div>
       </nav>

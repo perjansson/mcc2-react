@@ -4,9 +4,12 @@ require("../../node_modules/font-awesome/css/font-awesome.min.css")
 require("../styles/style.css")
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Router, Route, hashHistory} from 'react-router';
 import Header from './header';
 import Navigation from './navigation';
 import Meeting from './meeting/meeting';
+import TopList from './toplist/toplist';
+import About from './about/about';
 
 export class App extends React.Component {
 	render() {
@@ -20,4 +23,12 @@ export class App extends React.Component {
 	}
 }
 
-ReactDOM.render(<App/>, document.querySelector("#mccApp"));
+/*ReactDOM.render(<App/>, document.querySelector("#mccApp"));*/
+
+ReactDOM.render((
+  <Router history={hashHistory}>
+    <Route path="/" component={App}/>
+    <Route path="/toplist" component={TopList}/>
+    <Route path="/about" component={About}/>
+  </Router>
+), document.querySelector("#mccApp"))
