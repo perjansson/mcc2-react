@@ -6,11 +6,7 @@ export default class MeetingInput extends React.Component {
   constructor() {
     super();
     this.state = {
-      meeting : new Meeting()
-    }
-    this.state.meeting.currency = {
-      key: 'BTC',
-      name: 'Bitcoin'
+      meeting: new Meeting({key: 'BTC', name: 'Bitcoin'})
     }
   }
 
@@ -21,60 +17,45 @@ export default class MeetingInput extends React.Component {
           <form role="form" className="meeting-form">
             <div className="row meeting-mandatory-info">
               <div className="form-group col-xs-12 col-sm-4">
-                <input id="numberOfAttendees"
-                  value={this.state.meeting.numberOfAttendees}
-                  onChange={this.onNumberOfAttendeesChange.bind(this)}
-                  type="number"
-                  min="0"
-                  step="1"
-                  required
-                  className="form-control mcc-input"
-                  placeholder="Number of attendees"/>
+                <input id="numberOfAttendees" value={this.state.meeting.numberOfAttendees} onChange={this.onNumberOfAttendeesChange.bind(this)} type="number" min="0" step="1" required className="form-control mcc-input" placeholder="Number of attendees"/>
               </div>
               <div className="form-group col-xs-12 col-sm-4">
-                <input id="averageHourlyRate"
-                  value={this.state.meeting.averageHourlyRate}
-                  onChange={this.onAverageHourlyRateChange.bind(this)}
-                  type="number"
-                  min="0"
-                  step="10"
-                  required
-                  className="form-control mcc-input"
-                  placeholder="Average hourly rate"/>
+                <input id="averageHourlyRate" value={this.state.meeting.averageHourlyRate} onChange={this.onAverageHourlyRateChange.bind(this)} type="number" min="0" step="10" required className="form-control mcc-input" placeholder="Average hourly rate"/>
               </div>
               <div className="form-group col-xs-12 col-sm-4">
-                <select id="currency"
-                  value={this.state.meeting.currency.key}
-                  onChange={this.onCurrencyChange.bind(this)}
-                  className="form-control mcc-input">
+                <select id="currency" value={this.state.meeting.currency.key} onChange={this.onCurrencyChange.bind(this)} className="form-control mcc-input">
                   <option value=""></option>
-                  {
-                    this.props.currencies.map((currency) => (<option key={currency.key} value={currency.key}>{currency.name}</option>))
-                  }
+                  {this.props.currencies.map((currency) => (
+                    <option key={currency.key} value={currency.key}>{currency.name}</option>
+                  ))
+}
                 </select>
               </div>
             </div>
 
-            { this.state.meeting.isValid() ?
-              <div className="row meeting-control">
-                <div className="form-group col-xs-12 text-center animated tada">
-                  { this.state.meeting.isNotStarted() || this.state.meeting.isStopped() ?
-                    <span id="startButton">
-                      <button className="btn btn-link" title="Start" onClick={this.onStartClick.bind(this)}>
-                        <i className="fa fa-play"></i>
-                      </button>
-                    </span> : null
-                  }
-                  { this.state.meeting.isStarted() ?
-                    <span id="stopButton" className="animated fadeIn">
-                      <button className="btn btn-link" title="Stop" onClick={this.onStopClick.bind(this)}>
-                        <i className="fa fa-stop"></i>
-                      </button>
-                    </span> : null
-                  }
+            {this.state.meeting.isValid()
+              ? <div className="row meeting-control">
+                  <div className="form-group col-xs-12 text-center animated tada">
+                    {this.state.meeting.isNotStarted() || this.state.meeting.isStopped()
+                      ? <span id="startButton">
+                          <button className="btn btn-link" title="Start" onClick={this.onStartClick.bind(this)}>
+                            <i className="fa fa-play"></i>
+                          </button>
+                        </span>
+                      : null
+}
+                    {this.state.meeting.isStarted()
+                      ? <span id="stopButton" className="animated fadeIn">
+                          <button className="btn btn-link" title="Stop" onClick={this.onStopClick.bind(this)}>
+                            <i className="fa fa-stop"></i>
+                          </button>
+                        </span>
+                      : null
+}
+                  </div>
                 </div>
-              </div> : null
-            }
+              : null
+}
           </form>
         </section>
       </article>

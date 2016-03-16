@@ -4,13 +4,13 @@ import {Guid} from '../common/guid';
 
 export default class Meeting {
 
-  constructor() {
+  constructor(currency) {
     this.stopWatch = new AGStopwatch();
     this.id = null;
     this.status = null;
     this.numberOfAttendees = null;
     this.averageHourlyRate = null;
-    this.currency = null;
+    this.currency = currency;
     this.name = null;
     this.location = null;
     this.isGoodMeeting = null;
