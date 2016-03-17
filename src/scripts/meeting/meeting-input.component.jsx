@@ -27,8 +27,7 @@ export default class MeetingInput extends React.Component {
                   <option value=""></option>
                   {this.props.currencies.map((currency) => (
                     <option key={currency.key} value={currency.key}>{currency.name}</option>
-                  ))
-}
+                  ))}
                 </select>
               </div>
             </div>
@@ -42,20 +41,17 @@ export default class MeetingInput extends React.Component {
                             <i className="fa fa-play"></i>
                           </button>
                         </span>
-                      : null
-}
+                      : null}
                     {this.state.meeting.isStarted()
                       ? <span id="stopButton" className="animated fadeIn">
                           <button className="btn btn-link" title="Stop" onClick={this.onStopClick.bind(this)}>
                             <i className="fa fa-stop"></i>
                           </button>
                         </span>
-                      : null
-}
+                      : null}
                   </div>
                 </div>
-              : null
-}
+              : null}
           </form>
         </section>
       </article>
@@ -73,18 +69,15 @@ export default class MeetingInput extends React.Component {
   }
 
   onCurrencyChange(event) {
-    this.state.meeting.currency = this.props.currencies.find(currency => currency.key === event.target.value)
-    console.log('this.state.meeting.currency', this.state.meeting.currency);
+    this.state.meeting.currency = this.props.currencies.find(currency => currency.key === event.target.value);
     this.setState({meeting: this.state.meeting});
   }
 
   onStartClick() {
-    this.state.meeting.start();
     this.props.onStart(this.state.meeting);
   }
 
   onStopClick() {
-    this.state.meeting.stop();
     this.props.onStop(this.state.meeting);
   }
 }

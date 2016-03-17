@@ -28,19 +28,22 @@ export default class Meeting extends React.Component {
   }
 
   onStartMeeting(meeting) {
-    this.setState({
-      currencies: this.state.currencies,
-      meeting: meeting
-    });
+    meeting.start();
+    this.updateState(meeting);
     this.startPollingMeetingCost();
   }
 
   onStopMeeting(meeting) {
+    this.state.meeting.stop();
+    this.updateState(meeting)
+    this.stopPollingMeetingCost();
+  }
+
+  updateState(meeting) {
     this.setState({
       currencies: this.state.currencies,
       meeting: meeting
     });
-    this.stopPollingMeetingCost();
   }
 
   componentWillUnmount() {
