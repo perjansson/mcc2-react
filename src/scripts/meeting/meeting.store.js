@@ -1,4 +1,6 @@
-import {EventEmitter} from 'events';
+import {
+  EventEmitter
+} from 'events';
 import AppDispatcher from '../common/dispatcher';
 import ActionTypes from '../common/action-types';
 import Meeting from './meeting'
@@ -54,6 +56,8 @@ AppDispatcher.register((payload) => {
     default:
       // Do nothing
   }
+
+  return true;
 });
 
 export default meetingStore;

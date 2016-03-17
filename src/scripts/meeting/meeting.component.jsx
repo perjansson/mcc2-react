@@ -10,10 +10,7 @@ export default class Meeting extends React.Component {
   constructor(props) {
     super(props);
     this.timer = null;
-    this.state = {
-      currencies: CurrencyStore.getCurrencies(),
-      meeting: MeetingStore.getMeeting()
-    };
+    this.state = this.getMeetingState();
 
     this._onChange = this.onChange.bind(this);
 
@@ -40,10 +37,6 @@ export default class Meeting extends React.Component {
     )
   }
 
-  onChange() {
-    this.updateState(MeetingStore.getMeeting());
-  }
-
   onStartMeeting(meeting) {
     MeetingActionsCreator.startMeeting(meeting.id);
     this.startPollingMeetingCost();
@@ -54,11 +47,12 @@ export default class Meeting extends React.Component {
     this.stopPollingMeetingCost();
   }
 
-  updateState(meeting) {
-    this.setState({
-      currencies: this.state.currencies,
-      meeting: meeting
-    });
+  onChange() {
+    this.setState(this.getMeetingState());
+  }
+
+  getMeetingState() {
+    return {currencies: CurrencyStore.getCurrencies(), meeting: MeetingStore.getMeeting()};
   }
 
   startPollingMeetingCost() {
