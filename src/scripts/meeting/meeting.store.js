@@ -1,9 +1,8 @@
-import {
-  EventEmitter
-} from 'events';
+import {EventEmitter} from 'events';
 import AppDispatcher from '../common/dispatcher';
 import ActionTypes from '../common/action-types';
 import Meeting from './meeting'
+import Location from '../location/location';
 
 const CHANGE_EVENT = 'change';
 
@@ -15,6 +14,7 @@ class MeetingStore extends EventEmitter {
       key: 'BTC',
       name: 'Bitcoin'
     });
+    this.geocoder = new google.maps.Geocoder();
   }
 
   getMeeting(id) {
@@ -46,11 +46,43 @@ AppDispatcher.register((payload) => {
       // Save to API
       meetingStore.emitChange();
       break;
+
     case ActionTypes.MEETING_STOPPED:
       id = payload.action.id;
       meetingStore.meeting.stop();
       // Save to API
       meetingStore.emitChange();
+      break;
+
+    case ActionTypes.GET_LOCATION:
+      id = payload.action.id;
+      // TODO: Move to API...
+      navigator.geolocation.getCurrentPosition((position) => {
+        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        meetingStore.geocoder.geocode({location: latlng}, (results: any, status: any) => {
+          if (status == google.maps.GeocoderStatus.OK) {
+            var result = results[0];
+            var city: any;
+            for (var component in result['address_components']) {
+              for (var i in result['address_components'][component]['types']) {
+                if (result['address_components'][component]['types'][i] == "locality") {
+                  city = result['address_components'][component]['long_name'];
+                }
+              }
+            }
+            meetingStore.meeting.location = new Location(position.coords.latitude, position.coords.longitude, city);
+            meetingStore.emitChange();
+          } else {
+            console.error('Error getting city from google api');
+          }
+        });
+      }, () => {
+        console.error('Error finding location');
+      }, {
+        timeout: 30000,
+        maximumAge: 1,
+        enableHighAccuracy: true
+      });
       break;
 
     default:

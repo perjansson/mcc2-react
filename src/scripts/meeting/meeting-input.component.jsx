@@ -32,6 +32,16 @@ export default class MeetingInput extends React.Component {
               </div>
             </div>
 
+            {this.state.meeting.isStarted()
+              ? <div className="row meeting-optional-info-control animated fadeIn">
+                  <div className="col-xs-12 text-muted">
+                    {!this.state.meeting.location
+                      ? <a onClick={this.onGetLocationClick.bind(this)} className="pull-right">Where is this meeting?</a>
+                    : <span className="pull-right">{this.state.meeting.location.city}</span>}
+                  </div>
+                </div>
+              : null}
+
             {this.state.meeting.isValid()
               ? <div className="row meeting-control">
                   <div className="form-group col-xs-12 text-center animated tada">
@@ -60,17 +70,21 @@ export default class MeetingInput extends React.Component {
 
   onNumberOfAttendeesChange(event) {
     this.state.meeting.numberOfAttendees = event.target.value;
-    this.setState({meeting: this.state.meeting});
+    this.setState(this.getMeetingState());
   }
 
   onAverageHourlyRateChange(event) {
     this.state.meeting.averageHourlyRate = event.target.value;
-    this.setState({meeting: this.state.meeting});
+    this.setState(this.getMeetingState());
   }
 
   onCurrencyChange(event) {
     this.state.meeting.currency = this.props.currencies.find(currency => currency.key === event.target.value);
-    this.setState({meeting: this.state.meeting});
+    this.setState(this.getMeetingState());
+  }
+
+  getMeetingState() {
+    return {meeting: this.state.meeting};
   }
 
   onStartClick() {
@@ -79,5 +93,9 @@ export default class MeetingInput extends React.Component {
 
   onStopClick() {
     this.props.onStop(this.state.meeting);
+  }
+
+  onGetLocationClick() {
+    this.props.onGetLocation(this.state.meeting);
   }
 }

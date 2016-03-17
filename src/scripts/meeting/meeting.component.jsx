@@ -31,7 +31,11 @@ export default class Meeting extends React.Component {
   render() {
     return (
       <div>
-        <MeetingInput currencies={this.state.currencies} meeting={this.state.meeting} onStart={this.onStartMeeting.bind(this)} onStop={this.onStopMeeting.bind(this)}/>
+        <MeetingInput meeting={this.state.meeting}
+          currencies={this.state.currencies}
+          onStart={this.onStartMeeting.bind(this)}
+          onStop={this.onStopMeeting.bind(this)}
+          onGetLocation={this.onGetLocation.bind(this)}/>
         <MeetingOutput meeting={this.state.meeting}/>
       </div>
     )
@@ -45,6 +49,10 @@ export default class Meeting extends React.Component {
   onStopMeeting(meeting) {
     MeetingActionsCreator.stopMeeting(meeting.id);
     this.stopPollingMeetingCost();
+  }
+
+  onGetLocation(meeting) {
+    MeetingActionsCreator.getLocation(meeting.id);
   }
 
   onChange() {

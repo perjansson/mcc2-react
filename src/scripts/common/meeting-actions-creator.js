@@ -9,9 +9,16 @@ const MeetingActionsCreator = {
     })
   },
 
-  stopMeeting(id, rate) {
+  stopMeeting(id) {
     AppDispatcher.handleViewAction({
       actionType: ActionTypes.MEETING_STOPPED,
+      id: id
+    })
+  },
+
+  getLocation(id) {
+    AppDispatcher.handleViewAction({
+      actionType: ActionTypes.GET_LOCATION,
       id: id
     })
   }
