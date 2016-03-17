@@ -7,16 +7,28 @@ import MeetingActionsCreator from '../common/meeting-actions-creator';
 
 export default class Meeting extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.timer = null;
     this.state = {
       currencies: CurrencyStore.getCurrencies(),
       meeting: MeetingStore.getMeeting()
     };
+
+    this._onChange = this.onChange.bind(this);
+
     if (this.state.meeting.isStarted()) {
       this.startPollingMeetingCost()
     }
+  }
+
+  componentWillMount() {
+    MeetingStore.addChangeListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+    MeetingStore.removeChangeListener(this._onChange);
+    this.stopPollingMeetingCost();
   }
 
   render() {
@@ -28,17 +40,17 @@ export default class Meeting extends React.Component {
     )
   }
 
+  onChange() {
+    this.updateState(MeetingStore.getMeeting());
+  }
+
   onStartMeeting(meeting) {
-    meeting.start();
     MeetingActionsCreator.startMeeting(meeting.id);
-    this.updateState(meeting);
     this.startPollingMeetingCost();
   }
 
   onStopMeeting(meeting) {
-    meeting.stop();
     MeetingActionsCreator.stopMeeting(meeting.id);
-    this.updateState(meeting)
     this.stopPollingMeetingCost();
   }
 
@@ -49,16 +61,9 @@ export default class Meeting extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    this.stopPollingMeetingCost();
-  }
-
   startPollingMeetingCost() {
     this.timer = setInterval(() => {
-      this.setState({
-        currencies: this.state.currencies,
-        meeting: this.state.meeting
-      });
+      this._onChange()
     }, 50);
   }
 

@@ -1,5 +1,5 @@
 import ActionTypes from './action-types';
-import AppDispatcher from './Dispatcher';
+import AppDispatcher from './dispatcher';
 
 const MeetingActionsCreator = {
   startMeeting(id) {
