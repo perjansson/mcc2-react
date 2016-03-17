@@ -3,6 +3,7 @@ import MeetingInput from './meeting-input.component';
 import MeetingOutput from './meeting-output.component';
 import CurrencyStore from '../currency/currency.store';
 import MeetingStore from './meeting.store';
+import MeetingActionsCreator from '../common/meeting-actions-creator';
 
 export default class Meeting extends React.Component {
 
@@ -29,12 +30,14 @@ export default class Meeting extends React.Component {
 
   onStartMeeting(meeting) {
     meeting.start();
+    MeetingActionsCreator.startMeeting(meeting.id);
     this.updateState(meeting);
     this.startPollingMeetingCost();
   }
 
   onStopMeeting(meeting) {
-    this.state.meeting.stop();
+    meeting.stop();
+    MeetingActionsCreator.stopMeeting(meeting.id);
     this.updateState(meeting)
     this.stopPollingMeetingCost();
   }
