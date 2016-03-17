@@ -36,8 +36,13 @@ export default class MeetingInput extends React.Component {
               ? <div className="row meeting-optional-info-control animated fadeIn">
                   <div className="col-xs-12 text-muted">
                     {!this.state.meeting.location
-                      ? <a onClick={this.onGetLocationClick.bind(this)} className="pull-right">Where is this meeting?</a>
-                    : <span className="pull-right">{this.state.meeting.location.city}</span>}
+                      ? <a onClick={this.onGetLocationClick.bind(this)} className="pull-right">
+                          {this.state.meeting.isGettingLocation
+                            ? <i className="fa fa-spinner fa-spin"></i>
+                          : null}
+                          Where is this meeting?
+                        </a>
+                      : <span className="pull-right animated fadeIn">{this.state.meeting.location.city}</span>}
                   </div>
                 </div>
               : null}

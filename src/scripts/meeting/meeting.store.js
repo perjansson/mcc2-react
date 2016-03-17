@@ -56,6 +56,8 @@ AppDispatcher.register((payload) => {
 
     case ActionTypes.GET_LOCATION:
       id = payload.action.id;
+      meetingStore.meeting.isGettingLocation = true;
+      meetingStore.emitChange();
       // TODO: Move to API...
       navigator.geolocation.getCurrentPosition((position) => {
         var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -71,6 +73,7 @@ AppDispatcher.register((payload) => {
               }
             }
             meetingStore.meeting.location = new Location(position.coords.latitude, position.coords.longitude, city);
+            meetingStore.meeting.isGettingLocation = false;
             meetingStore.emitChange();
           } else {
             console.error('Error getting city from google api');

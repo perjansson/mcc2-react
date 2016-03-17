@@ -107,7 +107,7 @@ a {
   margin-bottom: 25px;
 }
 .meeting-optional-info-control {
-  font-size: 0.4em;
+  font-size: 0.8em;
   margin-bottom: 0;
   -webkit-animation-delay: 3s;
   animation-delay: 3s;
@@ -115,7 +115,7 @@ a {
 .meeting-optional-info-control .fa {
   font-size: 1.5em;
   color: gray;
-  display: block;
+  margin-right: 10px;
 }
 .meeting-optional-info .checkbox-lg {
   width: 30px; height: 30px;
@@ -175,9 +175,6 @@ label {
   }
   .meeting-optional-info-control {
     font-size: 0.7em;
-  }
-  .meeting-optional-info-control .fa {
-    font-size: 3em;
   }
   .meeting-control .fa {
     font-size: 7em;
