@@ -28,8 +28,8 @@ ReactDOM.render((
   <Router history={hashHistory}>
     <Route name="app" path="/" component={App}>
 			<IndexRoute component={Meeting} />
-	    <Route name="meeting" path="/meeting" component={Meeting}/>
-	    <Route name="toplist" path="/toplist" component={TopList}/>
+	    <Route name="meeting" path="/meetings/new" component={Meeting}/>
+	    <Route name="meetings" path="/meetings" component={TopList}/>
 	    <Route name="about" path="/about" component={About}/>
 		</Route>
   </Router>
