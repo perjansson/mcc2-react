@@ -14,6 +14,7 @@ export default class Meeting {
     this.name = null;
     this.location = null;
     this.isGoodMeeting = null;
+    this.cost = null;
   }
 
   start() {
@@ -25,6 +26,7 @@ export default class Meeting {
   stop() {
     this.status = MeetingStatus.Stopped;
     this.stopWatch.stop();
+    this.cost = this.getCost();
   }
 
   isValid() {
@@ -44,7 +46,7 @@ export default class Meeting {
   }
 
   getCost() {
-    return Math.round(this.getExactMeetingCost()).toFixed(0);
+    return parseFloat(Math.round(this.getExactMeetingCost()).toFixed(0));
   }
 
   getExactMeetingCost() {

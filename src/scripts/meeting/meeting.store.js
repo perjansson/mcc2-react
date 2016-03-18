@@ -1,5 +1,6 @@
 import {EventEmitter} from 'events';
 import AppDispatcher from '../common/dispatcher';
+import MeetingApi from './meeting-api'
 import ActionTypes from '../common/action-types';
 import Meeting from './meeting'
 import Location from '../location/location';
@@ -43,35 +44,31 @@ AppDispatcher.register((payload) => {
     case ActionTypes.UPDATE_NUMBER_OF_ATTENDEES:
       id = payload.action.id;
       meetingStore.meeting.numberOfAttendees = payload.action.numberOfAttendees;
-      // Save to API
       meetingStore.emitChange();
       break;
 
     case ActionTypes.UPDATE_AVERAGE_HOURLY_RATE:
       id = payload.action.id;
       meetingStore.meeting.averageHourlyRate = payload.action.averageHourlyRate;
-      // Save to API
       meetingStore.emitChange();
       break;
 
     case ActionTypes.UPDATE_CURRENCY:
       id = payload.action.id;
       meetingStore.meeting.currency = payload.action.currency;
-      // Save to API
       meetingStore.emitChange();
       break;
 
     case ActionTypes.MEETING_STARTED:
       id = payload.action.id;
       meetingStore.meeting.start();
-      // Save to API
       meetingStore.emitChange();
       break;
 
     case ActionTypes.MEETING_STOPPED:
       id = payload.action.id;
       meetingStore.meeting.stop();
-      // Save to API
+      MeetingApi.saveMeeting(meetingStore.meeting);
       meetingStore.emitChange();
       break;
 
