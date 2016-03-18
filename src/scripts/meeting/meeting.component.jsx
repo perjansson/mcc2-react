@@ -33,6 +33,9 @@ export default class Meeting extends React.Component {
       <div>
         <MeetingInput meeting={this.state.meeting}
           currencies={this.state.currencies}
+          onNumberOfAttendeesChange={this.onNumberOfAttendeesChange.bind(this)}
+          onAverageHourlyRateChange={this.onAverageHourlyRateChange.bind(this)}
+          onCurrencyChange={this.onCurrencyChange.bind(this)}
           onStart={this.onStartMeeting.bind(this)}
           onStop={this.onStopMeeting.bind(this)}
           onGetLocation={this.onGetLocation.bind(this)}/>
@@ -41,18 +44,30 @@ export default class Meeting extends React.Component {
     )
   }
 
-  onStartMeeting(meeting) {
-    MeetingActionsCreator.startMeeting(meeting.id);
+  onNumberOfAttendeesChange(numberOfAttendees) {
+    MeetingActionsCreator.updateNumberOfAttendees(this.state.meeting.id, numberOfAttendees);
+  }
+
+  onAverageHourlyRateChange(averageHourlyRate) {
+    MeetingActionsCreator.updateAverageHourlyRate(this.state.meeting.id, averageHourlyRate);
+  }
+
+  onCurrencyChange(currency) {
+    MeetingActionsCreator.updateCurrency(this.state.meeting.id, currency);
+  }
+
+  onStartMeeting() {
+    MeetingActionsCreator.startMeeting(this.state.meeting.id);
     this.startPollingMeetingCost();
   }
 
-  onStopMeeting(meeting) {
-    MeetingActionsCreator.stopMeeting(meeting.id);
+  onStopMeeting() {
+    MeetingActionsCreator.stopMeeting(this.state.meeting.id);
     this.stopPollingMeetingCost();
   }
 
-  onGetLocation(meeting) {
-    MeetingActionsCreator.getLocation(meeting.id);
+  onGetLocation() {
+    MeetingActionsCreator.getLocation(this.state.meeting.id);
   }
 
   onChange() {

@@ -74,22 +74,16 @@ export default class MeetingInput extends React.Component {
   }
 
   onNumberOfAttendeesChange(event) {
-    this.state.meeting.numberOfAttendees = event.target.value;
-    this.setState(this.getMeetingState());
+    this.props.onNumberOfAttendeesChange(event.target.value);
   }
 
   onAverageHourlyRateChange(event) {
-    this.state.meeting.averageHourlyRate = event.target.value;
-    this.setState(this.getMeetingState());
+    this.props.onAverageHourlyRateChange(event.target.value);
   }
 
   onCurrencyChange(event) {
-    this.state.meeting.currency = this.props.currencies.find(currency => currency.key === event.target.value);
-    this.setState(this.getMeetingState());
-  }
-
-  getMeetingState() {
-    return {meeting: this.state.meeting};
+    var currency = this.props.currencies.find(currency => currency.key === event.target.value);
+    this.props.onCurrencyChange(currency);
   }
 
   onStartClick() {

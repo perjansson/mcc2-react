@@ -40,6 +40,27 @@ const meetingStore = new MeetingStore();
 AppDispatcher.register((payload) => {
   let id;
   switch (payload.action.actionType) {
+    case ActionTypes.UPDATE_NUMBER_OF_ATTENDEES:
+      id = payload.action.id;
+      meetingStore.meeting.numberOfAttendees = payload.action.numberOfAttendees;
+      // Save to API
+      meetingStore.emitChange();
+      break;
+
+    case ActionTypes.UPDATE_AVERAGE_HOURLY_RATE:
+      id = payload.action.id;
+      meetingStore.meeting.averageHourlyRate = payload.action.averageHourlyRate;
+      // Save to API
+      meetingStore.emitChange();
+      break;
+
+    case ActionTypes.UPDATE_CURRENCY:
+      id = payload.action.id;
+      meetingStore.meeting.currency = payload.action.currency;
+      // Save to API
+      meetingStore.emitChange();
+      break;
+
     case ActionTypes.MEETING_STARTED:
       id = payload.action.id;
       meetingStore.meeting.start();
