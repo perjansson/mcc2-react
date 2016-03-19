@@ -3,14 +3,8 @@ import Meeting from './meeting'
 
 export default class MeetingInput extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      meeting: props.meeting
-    }
-  }
-
   render() {
+    this.state = this.getState();
     return (
       <article>
         <section>
@@ -39,7 +33,7 @@ export default class MeetingInput extends React.Component {
                       ? <a onClick={this.onGetLocationClick.bind(this)} className="pull-right">
                           {this.state.meeting.isGettingLocation
                             ? <i className="fa fa-spinner fa-spin"></i>
-                          : null}
+                            : null}
                           Where is this meeting?
                         </a>
                       : <span className="pull-right animated fadeIn">{this.state.meeting.location.city}</span>}
@@ -71,6 +65,10 @@ export default class MeetingInput extends React.Component {
         </section>
       </article>
     )
+  }
+
+  getState() {
+    return {meeting: this.props.meeting};
   }
 
   onNumberOfAttendeesChange(event) {

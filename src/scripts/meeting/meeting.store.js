@@ -1,10 +1,13 @@
-import {
-  EventEmitter
-} from 'events';
+import {EventEmitter} from 'events';
 import AppDispatcher from '../common/dispatcher';
 import Api from '../common/api';
 import ActionTypes from '../common/action-types';
-import Meeting from './meeting'
+import Meeting from './meeting';
+import meetingPropertyChangeReducer from './meeting-property-change.reducer';
+import meetingStartReducer from './meeting-start.reducer';
+import meetingStopReducer from './meeting-stop.reducer';
+import meetingLocationWillFindReducer from './meeting-location-will-find.reducer';
+import meetingLocationFoundReducer from './meeting-location-found.reducer';
 
 const CHANGE_EVENT = 'change';
 
@@ -39,47 +42,27 @@ class MeetingStore extends EventEmitter {
 const meetingStore = new MeetingStore();
 
 AppDispatcher.register((payload) => {
-  let id;
   switch (payload.action.actionType) {
     case ActionTypes.UPDATE_NUMBER_OF_ATTENDEES:
-      id = payload.action.id;
-      meetingStore.meeting.numberOfAttendees = payload.action.numberOfAttendees;
-      meetingStore.emitChange();
-      break;
-
     case ActionTypes.UPDATE_AVERAGE_HOURLY_RATE:
-      id = payload.action.id;
-      meetingStore.meeting.averageHourlyRate = payload.action.averageHourlyRate;
-      meetingStore.emitChange();
-      break;
-
     case ActionTypes.UPDATE_CURRENCY:
-      id = payload.action.id;
-      meetingStore.meeting.currency = payload.action.currency;
-      meetingStore.emitChange();
+      meetingStore.meeting = meetingPropertyChangeReducer(meetingStore.meeting, payload.action);
       break;
 
     case ActionTypes.MEETING_STARTED:
-      id = payload.action.id;
-      meetingStore.meeting.start();
-      meetingStore.emitChange();
+      meetingStore.meeting = meetingStartReducer(meetingStore.meeting, payload.action);
       break;
 
     case ActionTypes.MEETING_STOPPED:
-      id = payload.action.id;
-      meetingStore.meeting.stop();
+      meetingStore.meeting = meetingStopReducer(meetingStore.meeting, payload.action);
       Api.saveMeeting(meetingStore.meeting);
-      meetingStore.emitChange();
       break;
 
     case ActionTypes.GET_LOCATION:
-      id = payload.action.id;
-      meetingStore.meeting.isGettingLocation = true;
-      meetingStore.emitChange();
+      meetingStore.meeting = meetingLocationWillFindReducer(meetingStore.meeting, payload.action);
       Api.getLocation()
         .then((location) => {
-          meetingStore.meeting.location = location;
-          meetingStore.meeting.isGettingLocation = false;
+          meetingStore.meeting = meetingLocationFoundReducer(meetingStore.meeting, location);
           meetingStore.emitChange();
         });
       break;
@@ -88,6 +71,7 @@ AppDispatcher.register((payload) => {
       // Do nothing
   }
 
+  meetingStore.emitChange();
   return true;
 });
 

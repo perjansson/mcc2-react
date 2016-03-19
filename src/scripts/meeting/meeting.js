@@ -1,12 +1,16 @@
 import AGStopwatch from 'agstopwatch';
 import MeetingStatus from './meeting-status';
-import {Guid} from '../common/guid';
+import {
+  Guid
+} from '../common/guid';
+import _ from 'underscore';
 
 export default class Meeting {
 
   constructor(currency) {
     this.stopWatch = new AGStopwatch();
     this.id = null;
+    this.version = 1;
     this.status = null;
     this.numberOfAttendees = null;
     this.averageHourlyRate = null;
@@ -59,6 +63,12 @@ export default class Meeting {
 
   getElapsedTimeInSeconds() {
     return this.stopWatch.elapsed / 1000;
+  }
+
+  copy() {
+    var newMeeting = _.extend(new Meeting(), this);
+    newMeeting.version = this.version + 1;
+    return newMeeting;
   }
 
 }
