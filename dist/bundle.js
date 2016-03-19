@@ -26196,21 +26196,17 @@
 	
 	var _dispatcher2 = _interopRequireDefault(_dispatcher);
 	
-	var _meetingApi = __webpack_require__(233);
+	var _api = __webpack_require__(233);
 	
-	var _meetingApi2 = _interopRequireDefault(_meetingApi);
+	var _api2 = _interopRequireDefault(_api);
 	
-	var _actionTypes = __webpack_require__(235);
+	var _actionTypes = __webpack_require__(236);
 	
 	var _actionTypes2 = _interopRequireDefault(_actionTypes);
 	
 	var _meeting = __webpack_require__(221);
 	
 	var _meeting2 = _interopRequireDefault(_meeting);
-	
-	var _location = __webpack_require__(236);
-	
-	var _location2 = _interopRequireDefault(_location);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -26234,7 +26230,6 @@
 	      key: 'BTC',
 	      name: 'Bitcoin'
 	    });
-	    _this.geocoder = new google.maps.Geocoder();
 	    return _this;
 	  }
 	
@@ -26295,7 +26290,7 @@
 	    case _actionTypes2.default.MEETING_STOPPED:
 	      id = payload.action.id;
 	      meetingStore.meeting.stop();
-	      _meetingApi2.default.saveMeeting(meetingStore.meeting);
+	      _api2.default.saveMeeting(meetingStore.meeting);
 	      meetingStore.emitChange();
 	      break;
 	
@@ -26303,33 +26298,10 @@
 	      id = payload.action.id;
 	      meetingStore.meeting.isGettingLocation = true;
 	      meetingStore.emitChange();
-	      // TODO: Move to API...
-	      navigator.geolocation.getCurrentPosition(function (position) {
-	        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-	        meetingStore.geocoder.geocode({ location: latlng }, function (results, status) {
-	          if (status == google.maps.GeocoderStatus.OK) {
-	            var result = results[0];
-	            var city;
-	            for (var component in result['address_components']) {
-	              for (var i in result['address_components'][component]['types']) {
-	                if (result['address_components'][component]['types'][i] == "locality") {
-	                  city = result['address_components'][component]['long_name'];
-	                }
-	              }
-	            }
-	            meetingStore.meeting.location = new _location2.default(position.coords.latitude, position.coords.longitude, city);
-	            meetingStore.meeting.isGettingLocation = false;
-	            meetingStore.emitChange();
-	          } else {
-	            console.error('Error getting city from google api');
-	          }
-	        });
-	      }, function () {
-	        console.error('Error finding location');
-	      }, {
-	        timeout: 30000,
-	        maximumAge: 1,
-	        enableHighAccuracy: true
+	      _api2.default.getLocation(function (location) {
+	        meetingStore.meeting.location = location;
+	        meetingStore.meeting.isGettingLocation = false;
+	        meetingStore.emitChange();
 	      });
 	      break;
 	
@@ -27026,18 +26998,24 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
+	var _location = __webpack_require__(235);
+	
+	var _location2 = _interopRequireDefault(_location);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var MEETINGS_API = 'https://mcc2-backend.herokuapp.com/';
 	
-	var MeetingApi = function () {
-	  function MeetingApi() {
-	    _classCallCheck(this, MeetingApi);
+	var Api = function () {
+	  function Api() {
+	    _classCallCheck(this, Api);
+	
+	    this.geocoder = new google.maps.Geocoder();
 	  }
 	
-	  _createClass(MeetingApi, [{
+	  _createClass(Api, [{
 	    key: 'saveMeeting',
 	    value: function saveMeeting(meeting) {
 	      _jquery2.default.ajax({
@@ -27064,16 +27042,45 @@
 	        }.bind(this)
 	      });
 	    }
+	  }, {
+	    key: 'getLocation',
+	    value: function getLocation(onSuccess) {
+	      navigator.geolocation.getCurrentPosition(function (position) {
+	        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	        api.geocoder.geocode({ location: latlng }, function (results, status) {
+	          if (status == google.maps.GeocoderStatus.OK) {
+	            var result = results[0];
+	            var city;
+	            for (var component in result['address_components']) {
+	              for (var i in result['address_components'][component]['types']) {
+	                if (result['address_components'][component]['types'][i] == "locality") {
+	                  city = result['address_components'][component]['long_name'];
+	                }
+	              }
+	            }
+	            onSuccess(new _location2.default(position.coords.latitude, position.coords.longitude, city));
+	          } else {
+	            console.error('Error getting city from google api');
+	          }
+	        });
+	      }, function () {
+	        console.error('Error finding location');
+	      }, {
+	        timeout: 30000,
+	        maximumAge: 1,
+	        enableHighAccuracy: true
+	      });
+	    }
 	  }]);
 	
-	  return MeetingApi;
+	  return Api;
 	}();
 	
-	var meetingApi = new MeetingApi();
+	var api = new Api();
 	
-	exports.default = meetingApi;
+	exports.default = api;
 	
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "meeting-api.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "api.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
 /* 234 */
@@ -36929,32 +36936,6 @@
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 	
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var ActionTypes = {
-	  UPDATE_NUMBER_OF_ATTENDEES: 'UPDATE_NUMBER_OF_ATTENDEES',
-	  UPDATE_AVERAGE_HOURLY_RATE: 'UPDATE_AVERAGE_HOURLY_RATE',
-	  UPDATE_CURRENCY: 'UPDATE_CURRENCY',
-	  MEETING_STARTED: 'MEETING_STARTED',
-	  MEETING_STOPPED: 'MEETING_STOPPED',
-	  GET_LOCATION: 'GET_LOCATION',
-	  GET_MEETINGS: 'GET_MEETINGS',
-	  ANY_GIVEN_ACTION: 'ANY_GIVEN_ACTION'
-	};
-	
-	exports.default = ActionTypes;
-	
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "action-types.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 236 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-	
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -36976,6 +36957,32 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "location.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+	
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var ActionTypes = {
+	  UPDATE_NUMBER_OF_ATTENDEES: 'UPDATE_NUMBER_OF_ATTENDEES',
+	  UPDATE_AVERAGE_HOURLY_RATE: 'UPDATE_AVERAGE_HOURLY_RATE',
+	  UPDATE_CURRENCY: 'UPDATE_CURRENCY',
+	  MEETING_STARTED: 'MEETING_STARTED',
+	  MEETING_STOPPED: 'MEETING_STOPPED',
+	  GET_LOCATION: 'GET_LOCATION',
+	  GET_MEETINGS: 'GET_MEETINGS',
+	  ANY_GIVEN_ACTION: 'ANY_GIVEN_ACTION'
+	};
+	
+	exports.default = ActionTypes;
+	
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/PJ/Jobb/Kod/mcc2-react/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "action-types.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
 /* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36987,7 +36994,7 @@
 	  value: true
 	});
 	
-	var _actionTypes = __webpack_require__(235);
+	var _actionTypes = __webpack_require__(236);
 	
 	var _actionTypes2 = _interopRequireDefault(_actionTypes);
 	
@@ -37230,17 +37237,13 @@
 	
 	var _dispatcher2 = _interopRequireDefault(_dispatcher);
 	
-	var _actionTypes = __webpack_require__(235);
+	var _actionTypes = __webpack_require__(236);
 	
 	var _actionTypes2 = _interopRequireDefault(_actionTypes);
 	
-	var _meetingApi = __webpack_require__(233);
+	var _api = __webpack_require__(233);
 	
-	var _meetingApi2 = _interopRequireDefault(_meetingApi);
-	
-	var _meeting = __webpack_require__(221);
-	
-	var _meeting2 = _interopRequireDefault(_meeting);
+	var _api2 = _interopRequireDefault(_api);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -37294,7 +37297,7 @@
 	_dispatcher2.default.register(function (payload) {
 	  switch (payload.action.actionType) {
 	    case _actionTypes2.default.GET_MEETINGS:
-	      _meetingApi2.default.getMeetings(function (meetings) {
+	      _api2.default.getMeetings(function (meetings) {
 	        topListStore.meetings = meetings;
 	        topListStore.emitChange();
 	      });
