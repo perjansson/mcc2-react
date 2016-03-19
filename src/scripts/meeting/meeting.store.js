@@ -1,9 +1,8 @@
 import {EventEmitter} from 'events';
 import AppDispatcher from '../common/dispatcher';
-import MeetingApi from './meeting-api'
+import Api from '../common/api';
 import ActionTypes from '../common/action-types';
 import Meeting from './meeting'
-import Location from '../location/location';
 
 const CHANGE_EVENT = 'change';
 
@@ -15,7 +14,6 @@ class MeetingStore extends EventEmitter {
       key: 'BTC',
       name: 'Bitcoin'
     });
-    this.geocoder = new google.maps.Geocoder();
   }
 
   getMeeting(id) {
@@ -68,7 +66,7 @@ AppDispatcher.register((payload) => {
     case ActionTypes.MEETING_STOPPED:
       id = payload.action.id;
       meetingStore.meeting.stop();
-      MeetingApi.saveMeeting(meetingStore.meeting);
+      Api.saveMeeting(meetingStore.meeting);
       meetingStore.emitChange();
       break;
 
@@ -76,33 +74,10 @@ AppDispatcher.register((payload) => {
       id = payload.action.id;
       meetingStore.meeting.isGettingLocation = true;
       meetingStore.emitChange();
-      // TODO: Move to API...
-      navigator.geolocation.getCurrentPosition((position) => {
-        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        meetingStore.geocoder.geocode({location: latlng}, (results: any, status: any) => {
-          if (status == google.maps.GeocoderStatus.OK) {
-            var result = results[0];
-            var city: any;
-            for (var component in result['address_components']) {
-              for (var i in result['address_components'][component]['types']) {
-                if (result['address_components'][component]['types'][i] == "locality") {
-                  city = result['address_components'][component]['long_name'];
-                }
-              }
-            }
-            meetingStore.meeting.location = new Location(position.coords.latitude, position.coords.longitude, city);
-            meetingStore.meeting.isGettingLocation = false;
-            meetingStore.emitChange();
-          } else {
-            console.error('Error getting city from google api');
-          }
-        });
-      }, () => {
-        console.error('Error finding location');
-      }, {
-        timeout: 30000,
-        maximumAge: 1,
-        enableHighAccuracy: true
+      Api.getLocation((location) => {
+        meetingStore.meeting.location = location;
+        meetingStore.meeting.isGettingLocation = false;
+        meetingStore.emitChange();
       });
       break;
 

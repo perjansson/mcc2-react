@@ -1,8 +1,7 @@
 import {EventEmitter} from 'events';
 import AppDispatcher from '../common/dispatcher';
 import ActionTypes from '../common/action-types';
-import MeetingApi from '../meeting/meeting-api'
-import Meeting from '../meeting/meeting'
+import Api from '../common/api';
 
 const CHANGE_EVENT = 'change';
 
@@ -36,7 +35,7 @@ const topListStore = new TopListStore();
 AppDispatcher.register((payload) => {
   switch (payload.action.actionType) {
     case ActionTypes.GET_MEETINGS:
-      MeetingApi.getMeetings((meetings) => {
+      Api.getMeetings((meetings) => {
         topListStore.meetings = meetings;
         topListStore.emitChange();
       });
