@@ -42,20 +42,24 @@ export default class TopList extends React.Component {
             {this.state.meetings && this.state.meetings.length
               ? <div className="col-xs-12">
                   <table className="table table-striped table-hover">
-                    <tr>
-                      <th width="10%"></th>
-                      <th width="30%">Number of attendees</th>
-                      <th width="30%">Average hourly rate</th>
-                      <th width="30%">Cost</th>
-                    </tr>
-                    {this.state.meetings.map((meeting, i) => (
+                    <thead>
                       <tr>
-                        <td>{i+1}</td>
-                        <td>{meeting.numberOfAttendees}</td>
-                        <td>{meeting.averageHourlyRate}</td>
-                        <td>{meeting.cost} {meeting.currency.name}</td>
+                        <th width="10%"></th>
+                        <th width="30%">Number of attendees</th>
+                        <th width="30%">Average hourly rate</th>
+                        <th width="30%">Cost</th>
                       </tr>
-                    ))}
+                    </thead>
+                    <tbody>
+                      {this.state.meetings.map((meeting, i) => (
+                        <tr key={meeting.id}>
+                          <td>{i + 1}</td>
+                          <td>{meeting.numberOfAttendees}</td>
+                          <td>{meeting.averageHourlyRate}</td>
+                          <td>{meeting.cost} {meeting.currency.name}</td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                 </div>
               : null}
