@@ -26298,7 +26298,7 @@
 	      id = payload.action.id;
 	      meetingStore.meeting.isGettingLocation = true;
 	      meetingStore.emitChange();
-	      _api2.default.getLocation(function (location) {
+	      _api2.default.getLocation().then(function (location) {
 	        meetingStore.meeting.location = location;
 	        meetingStore.meeting.isGettingLocation = false;
 	        meetingStore.emitChange();
@@ -27045,31 +27045,37 @@
 	  }, {
 	    key: 'getLocation',
 	    value: function getLocation(onSuccess) {
-	      navigator.geolocation.getCurrentPosition(function (position) {
-	        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-	        api.geocoder.geocode({ location: latlng }, function (results, status) {
-	          if (status == google.maps.GeocoderStatus.OK) {
-	            var result = results[0];
-	            var city;
-	            for (var component in result['address_components']) {
-	              for (var i in result['address_components'][component]['types']) {
-	                if (result['address_components'][component]['types'][i] == "locality") {
-	                  city = result['address_components'][component]['long_name'];
+	      var promise = new Promise(function (resolve, reject) {
+	        navigator.geolocation.getCurrentPosition(function (position) {
+	          var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	          api.geocoder.geocode({
+	            location: latlng
+	          }, function (results, status) {
+	            if (status == google.maps.GeocoderStatus.OK) {
+	              var result = results[0];
+	              var city;
+	              for (var component in result['address_components']) {
+	                for (var i in result['address_components'][component]['types']) {
+	                  if (result['address_components'][component]['types'][i] == "locality") {
+	                    city = result['address_components'][component]['long_name'];
+	                  }
 	                }
 	              }
+	              resolve(new _location2.default(position.coords.latitude, position.coords.longitude, city));
+	            } else {
+	              reject(Error('Error getting city from google api'));
 	            }
-	            onSuccess(new _location2.default(position.coords.latitude, position.coords.longitude, city));
-	          } else {
-	            console.error('Error getting city from google api');
-	          }
+	          });
+	        }, function (error) {
+	          reject(Error('Error finding location: ' + error));
+	        }, {
+	          timeout: 30000,
+	          maximumAge: 1,
+	          enableHighAccuracy: true
 	        });
-	      }, function () {
-	        console.error('Error finding location');
-	      }, {
-	        timeout: 30000,
-	        maximumAge: 1,
-	        enableHighAccuracy: true
 	      });
+	
+	      return promise;
 	    }
 	  }]);
 	
@@ -37145,53 +37151,61 @@
 	                'table',
 	                { className: 'table table-striped table-hover' },
 	                _react2.default.createElement(
-	                  'tr',
+	                  'thead',
 	                  null,
-	                  _react2.default.createElement('th', { width: '10%' }),
 	                  _react2.default.createElement(
-	                    'th',
-	                    { width: '30%' },
-	                    'Number of attendees'
-	                  ),
-	                  _react2.default.createElement(
-	                    'th',
-	                    { width: '30%' },
-	                    'Average hourly rate'
-	                  ),
-	                  _react2.default.createElement(
-	                    'th',
-	                    { width: '30%' },
-	                    'Cost'
-	                  )
-	                ),
-	                this.state.meetings.map(function (meeting, i) {
-	                  return _react2.default.createElement(
 	                    'tr',
 	                    null,
+	                    _react2.default.createElement('th', { width: '10%' }),
 	                    _react2.default.createElement(
-	                      'td',
-	                      null,
-	                      i + 1
+	                      'th',
+	                      { width: '30%' },
+	                      'Number of attendees'
 	                    ),
 	                    _react2.default.createElement(
-	                      'td',
-	                      null,
-	                      meeting.numberOfAttendees
+	                      'th',
+	                      { width: '30%' },
+	                      'Average hourly rate'
 	                    ),
 	                    _react2.default.createElement(
-	                      'td',
-	                      null,
-	                      meeting.averageHourlyRate
-	                    ),
-	                    _react2.default.createElement(
-	                      'td',
-	                      null,
-	                      meeting.cost,
-	                      ' ',
-	                      meeting.currency.name
+	                      'th',
+	                      { width: '30%' },
+	                      'Cost'
 	                    )
-	                  );
-	                })
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'tbody',
+	                  null,
+	                  this.state.meetings.map(function (meeting, i) {
+	                    return _react2.default.createElement(
+	                      'tr',
+	                      { key: meeting.id },
+	                      _react2.default.createElement(
+	                        'td',
+	                        null,
+	                        i + 1
+	                      ),
+	                      _react2.default.createElement(
+	                        'td',
+	                        null,
+	                        meeting.numberOfAttendees
+	                      ),
+	                      _react2.default.createElement(
+	                        'td',
+	                        null,
+	                        meeting.averageHourlyRate
+	                      ),
+	                      _react2.default.createElement(
+	                        'td',
+	                        null,
+	                        meeting.cost,
+	                        ' ',
+	                        meeting.currency.name
+	                      )
+	                    );
+	                  })
+	                )
 	              )
 	            ) : null
 	          )

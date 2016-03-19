@@ -35,31 +35,37 @@ class Api {
   }
 
   getLocation(onSuccess) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      api.geocoder.geocode({location: latlng}, (results: any, status: any) => {
-        if (status == google.maps.GeocoderStatus.OK) {
-          var result = results[0];
-          var city: any;
-          for (var component in result['address_components']) {
-            for (var i in result['address_components'][component]['types']) {
-              if (result['address_components'][component]['types'][i] == "locality") {
-                city = result['address_components'][component]['long_name'];
+    var promise = new Promise(function(resolve, reject) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        api.geocoder.geocode({
+          location: latlng
+        }, (results: any, status: any) => {
+          if (status == google.maps.GeocoderStatus.OK) {
+            var result = results[0];
+            var city: any;
+            for (var component in result['address_components']) {
+              for (var i in result['address_components'][component]['types']) {
+                if (result['address_components'][component]['types'][i] == "locality") {
+                  city = result['address_components'][component]['long_name'];
+                }
               }
             }
+            resolve(new Location(position.coords.latitude, position.coords.longitude, city));
+          } else {
+            reject(Error('Error getting city from google api'));
           }
-          onSuccess(new Location(position.coords.latitude, position.coords.longitude, city));
-        } else {
-          console.error('Error getting city from google api');
-        }
+        });
+      }, (error) => {
+        reject(Error('Error finding location: ' + error));
+      }, {
+        timeout: 30000,
+        maximumAge: 1,
+        enableHighAccuracy: true
       });
-    }, () => {
-      console.error('Error finding location');
-    }, {
-      timeout: 30000,
-      maximumAge: 1,
-      enableHighAccuracy: true
     });
+
+    return promise;
   }
 
 }

@@ -1,4 +1,6 @@
-import {EventEmitter} from 'events';
+import {
+  EventEmitter
+} from 'events';
 import AppDispatcher from '../common/dispatcher';
 import Api from '../common/api';
 import ActionTypes from '../common/action-types';
@@ -74,11 +76,12 @@ AppDispatcher.register((payload) => {
       id = payload.action.id;
       meetingStore.meeting.isGettingLocation = true;
       meetingStore.emitChange();
-      Api.getLocation((location) => {
-        meetingStore.meeting.location = location;
-        meetingStore.meeting.isGettingLocation = false;
-        meetingStore.emitChange();
-      });
+      Api.getLocation()
+        .then((location) => {
+          meetingStore.meeting.location = location;
+          meetingStore.meeting.isGettingLocation = false;
+          meetingStore.emitChange();
+        });
       break;
 
     default:
