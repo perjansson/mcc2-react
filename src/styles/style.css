@@ -1,4 +1,5 @@
 /* App */
+
 * {
   font-family: 'Montserrat', serif;
 }
@@ -45,6 +46,7 @@ h2 {
 }
 
 /* Navigation */
+
 nav {
   margin-bottom: 20px !important;
 }
@@ -93,6 +95,7 @@ hr {
 }
 
 /* Meeting */
+
 a {
   cursor: pointer;
 }
@@ -118,16 +121,17 @@ a {
   margin-right: 10px;
 }
 .meeting-optional-info .checkbox-lg {
-  width: 30px; height: 30px;
+  width: 30px;
+  height: 30px;
 }
 i:before:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 .meeting-cost {
   cursor: pointer;
 }
 .meeting-control button:focus {
-  outline:0;
+  outline: 0;
 }
 .meeting-control .fa {
   font-size: 5em;
@@ -163,15 +167,15 @@ label {
 .location-finder {
   margin-top: 15px;
 }
-@media only screen and (min-width : 480px) {
+@media only screen and (min-width: 480px) {
   select.mcc-input {
     height: 60px;
     line-height: 35px;
   }
   .mcc-input {
-      height: 60px;
-      padding: 12px 24px;
-      font-size: 22px;
+    height: 60px;
+    padding: 12px 24px;
+    font-size: 22px;
   }
   .meeting-optional-info-control {
     font-size: 0.7em;
@@ -191,6 +195,7 @@ label {
 }
 
 /* Meeting status */
+
 .alert-meeting-cost {
   font-size: 24px;
   margin-top: 5px;
@@ -201,15 +206,40 @@ label {
   font-size: 14px;
   color: lightgray;
 }
-@media only screen and (min-width : 480px) {
- .alert-meeting-cost {
+@media only screen and (min-width: 480px) {
+  .alert-meeting-cost {
     font-size: 36px;
     margin-top: 15px;
     margin-bottom: 30px;
   }
 }
 
+/* Top list */
+.loader {
+  color: #337ab7;
+  animation-delay: 0.5s;
+  animation-duration: 5s;
+}
+.top-list .fa {
+  font-size: 7em;
+  display: block;
+  margin-bottom: 10px;
+}
+.table {
+  font-size: 0.8em;
+}
+th, td {
+  text-align: left;
+}
+th {
+  color: #337ab7;
+}
+td {
+  font-size: 0.9em;
+}
+
 /* About */
+
 .about img {
   margin-bottom: 40px;
 }

@@ -20,6 +20,18 @@ class MeetingApi {
     });
   }
 
+  getMeetings(onSuccess) {
+    $.ajax({
+      url: MEETINGS_API + "meetings",
+      dataType: 'json',
+      type: 'GET',
+      success: onSuccess,
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  }
+
 }
 
 const meetingApi = new MeetingApi();

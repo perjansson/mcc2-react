@@ -45,6 +45,12 @@ const MeetingActionsCreator = {
       actionType: ActionTypes.GET_LOCATION,
       id: id
     })
+  },
+
+  getMeetings() {
+    AppDispatcher.handleViewAction({
+      actionType: ActionTypes.GET_MEETINGS
+    })
   }
 }
 
