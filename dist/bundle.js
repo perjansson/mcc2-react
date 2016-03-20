@@ -27153,7 +27153,7 @@
 	      return _react2.default.createElement(
 	        "div",
 	        null,
-	        this.props.meeting && this.props.meeting.isStarted() ? _react2.default.createElement(
+	        this.props.meeting && !this.props.meeting.isNotStarted() ? _react2.default.createElement(
 	          "div",
 	          { className: "row meeting-cost animated bounceInUp" },
 	          _react2.default.createElement(
