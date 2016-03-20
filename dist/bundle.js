@@ -25167,7 +25167,11 @@
 	  _createClass(MeetingInput, [{
 	    key: 'render',
 	    value: function render() {
-	      this.state = this.getState();
+	      var _this2 = this;
+	
+	      this.state = {
+	        meeting: this.props.meeting
+	      };
 	      return _react2.default.createElement(
 	        'article',
 	        null,
@@ -25183,19 +25187,27 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'form-group col-xs-12 col-sm-4' },
-	                _react2.default.createElement('input', { id: 'numberOfAttendees', value: this.state.meeting.numberOfAttendees, onChange: this.onNumberOfAttendeesChange.bind(this), type: 'number', min: '0', step: '1', required: true, className: 'form-control mcc-input', placeholder: 'Number of attendees' })
+	                _react2.default.createElement('input', { id: 'numberOfAttendees', value: this.state.meeting.numberOfAttendees, onChange: function onChange(event) {
+	                    return _this2.props.onNumberOfAttendeesChange(event.target.value);
+	                  }, type: 'number', min: '0', step: '1', required: true, className: 'form-control mcc-input', placeholder: 'Number of attendees' })
 	              ),
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'form-group col-xs-12 col-sm-4' },
-	                _react2.default.createElement('input', { id: 'averageHourlyRate', value: this.state.meeting.averageHourlyRate, onChange: this.onAverageHourlyRateChange.bind(this), type: 'number', min: '0', step: '10', required: true, className: 'form-control mcc-input', placeholder: 'Average hourly rate' })
+	                _react2.default.createElement('input', { id: 'averageHourlyRate', value: this.state.meeting.averageHourlyRate, onChange: function onChange(event) {
+	                    return _this2.props.onAverageHourlyRateChange(event.target.value);
+	                  }, type: 'number', min: '0', step: '10', required: true, className: 'form-control mcc-input', placeholder: 'Average hourly rate' })
 	              ),
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'form-group col-xs-12 col-sm-4' },
 	                _react2.default.createElement(
 	                  'select',
-	                  { id: 'currency', value: this.state.meeting.currency.key, onChange: this.onCurrencyChange.bind(this), className: 'form-control mcc-input' },
+	                  { id: 'currency', value: this.state.meeting.currency.key, onChange: function onChange(event) {
+	                      return _this2.props.onCurrencyChange(_this2.props.currencies.find(function (currency) {
+	                        return currency.key === event.target.value;
+	                      }));
+	                    }, className: 'form-control mcc-input' },
 	                  _react2.default.createElement('option', { value: '' }),
 	                  this.props.currencies.map(function (currency) {
 	                    return _react2.default.createElement(
@@ -25215,7 +25227,9 @@
 	                { className: 'col-xs-12 text-muted' },
 	                !this.state.meeting.location ? _react2.default.createElement(
 	                  'a',
-	                  { onClick: this.onGetLocationClick.bind(this), className: 'pull-right' },
+	                  { onClick: function onClick() {
+	                      return _this2.props.onGetLocation(_this2.state.meeting);
+	                    }, className: 'pull-right' },
 	                  this.state.meeting.isGettingLocation ? _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin' }) : null,
 	                  'Where is this meeting?'
 	                ) : _react2.default.createElement(
@@ -25236,7 +25250,9 @@
 	                  { id: 'startButton' },
 	                  _react2.default.createElement(
 	                    'button',
-	                    { className: 'btn btn-link', title: 'Start', onClick: this.onStartClick.bind(this) },
+	                    { className: 'btn btn-link', title: 'Start', onClick: function onClick() {
+	                        return _this2.props.onStart(_this2.state.meeting);
+	                      } },
 	                    _react2.default.createElement('i', { className: 'fa fa-play' })
 	                  )
 	                ) : null,
@@ -25245,7 +25261,9 @@
 	                  { id: 'stopButton', className: 'animated fadeIn' },
 	                  _react2.default.createElement(
 	                    'button',
-	                    { className: 'btn btn-link', title: 'Stop', onClick: this.onStopClick.bind(this) },
+	                    { className: 'btn btn-link', title: 'Stop', onClick: function onClick() {
+	                        return _this2.props.onStop(_this2.state.meeting);
+	                      } },
 	                    _react2.default.createElement('i', { className: 'fa fa-stop' })
 	                  )
 	                ) : null
@@ -25254,44 +25272,6 @@
 	          )
 	        )
 	      );
-	    }
-	  }, {
-	    key: 'getState',
-	    value: function getState() {
-	      return { meeting: this.props.meeting };
-	    }
-	  }, {
-	    key: 'onNumberOfAttendeesChange',
-	    value: function onNumberOfAttendeesChange(event) {
-	      this.props.onNumberOfAttendeesChange(event.target.value);
-	    }
-	  }, {
-	    key: 'onAverageHourlyRateChange',
-	    value: function onAverageHourlyRateChange(event) {
-	      this.props.onAverageHourlyRateChange(event.target.value);
-	    }
-	  }, {
-	    key: 'onCurrencyChange',
-	    value: function onCurrencyChange(event) {
-	      var currency = this.props.currencies.find(function (currency) {
-	        return currency.key === event.target.value;
-	      });
-	      this.props.onCurrencyChange(currency);
-	    }
-	  }, {
-	    key: 'onStartClick',
-	    value: function onStartClick() {
-	      this.props.onStart(this.state.meeting);
-	    }
-	  }, {
-	    key: 'onStopClick',
-	    value: function onStopClick() {
-	      this.props.onStop(this.state.meeting);
-	    }
-	  }, {
-	    key: 'onGetLocationClick',
-	    value: function onGetLocationClick() {
-	      this.props.onGetLocation(this.state.meeting);
 	    }
 	  }]);
 	
