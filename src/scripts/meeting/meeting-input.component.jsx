@@ -1,5 +1,4 @@
 import React from 'react';
-import Meeting from './meeting'
 
 export default class MeetingInput extends React.Component {
 
@@ -10,19 +9,42 @@ export default class MeetingInput extends React.Component {
     return (
       <article>
         <section>
-          <form role="form" className="meeting-form">
+          <form className="meeting-form"
+              role="form">
             <div className="row meeting-mandatory-info">
               <div className="form-group col-xs-12 col-sm-4">
-                <input id="numberOfAttendees" value={this.state.meeting.numberOfAttendees} onChange={(event) => this.props.onNumberOfAttendeesChange(event.target.value)} type="number" min="0" step="1" required className="form-control mcc-input" placeholder="Number of attendees"/>
+                <input className="form-control mcc-input"
+                    id="numberOfAttendees"
+                    min="0"
+                    onChange={(event) => this.props.onNumberOfAttendeesChange(event.target.value)}
+                    placeholder="Number of attendees"
+                    required
+                    step="1"
+                    type="number"
+                    value={this.state.meeting.numberOfAttendees}/>
               </div>
               <div className="form-group col-xs-12 col-sm-4">
-                <input id="averageHourlyRate" value={this.state.meeting.averageHourlyRate} onChange={(event) => this.props.onAverageHourlyRateChange(event.target.value)} type="number" min="0" step="10" required className="form-control mcc-input" placeholder="Average hourly rate"/>
+                <input className="form-control mcc-input"
+                    id="averageHourlyRate"
+                    min="0"
+                    onChange={(event) => this.props.onAverageHourlyRateChange(event.target.value)}
+                    placeholder="Average hourly rate"
+                    required
+                    step="10"
+                    type="number"
+                    value={this.state.meeting.averageHourlyRate} />
               </div>
               <div className="form-group col-xs-12 col-sm-4">
-                <select id="currency" value={this.state.meeting.currency.key} onChange={(event) => this.props.onCurrencyChange(this.props.currencies.find(currency => currency.key === event.target.value))} className="form-control mcc-input">
+                <select className="form-control mcc-input"
+                    id="currency"
+                    onChange={(event) =>
+                      this.props.onCurrencyChange(this.props.currencies.find(currency =>
+                        currency.key === event.target.value))}
+                    value={this.state.meeting.currency.key}>
                   <option value=""></option>
                   {this.props.currencies.map((currency) => (
-                    <option key={currency.key} value={currency.key}>{currency.name}</option>
+                    <option key={currency.key}
+                        value={currency.key}>{currency.name}</option>
                   ))}
                 </select>
               </div>

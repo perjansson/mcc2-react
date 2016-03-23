@@ -20,6 +20,14 @@ export default class TopList extends React.Component {
     TopListStore.removeChangeListener(this._onChange);
   }
 
+  onChange() {
+    this.setState(this.getTopListState());
+  }
+
+  getTopListState() {
+    return { meetings: TopListStore.getMeetings() };
+  }
+
   render() {
     return (
       <article>
@@ -66,15 +74,7 @@ export default class TopList extends React.Component {
           </div>
         </section>
       </article>
-    )
-  }
-
-  getTopListState() {
-    return {meetings: TopListStore.getMeetings()};
-  }
-
-  onChange() {
-    this.setState(this.getTopListState());
+    );
   }
 
 }

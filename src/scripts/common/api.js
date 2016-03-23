@@ -35,15 +35,15 @@ class Api {
   }
 
   getLocation(onSuccess) {
-    var promise = new Promise(function(resolve, reject) {
+    const promise = new Promise(function(resolve, reject) {
       navigator.geolocation.getCurrentPosition((position) => {
-        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        const latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         api.geocoder.geocode({
           location: latlng
-        }, (results: any, status: any) => {
-          if (status == google.maps.GeocoderStatus.OK) {
-            var result = results[0];
-            var city: any;
+        }, (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) {
+            const result = results[0];
+            let city;
             for (var component in result['address_components']) {
               for (var i in result['address_components'][component]['types']) {
                 if (result['address_components'][component]['types'][i] == "locality") {

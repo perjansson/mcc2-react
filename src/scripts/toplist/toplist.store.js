@@ -1,4 +1,4 @@
-import {EventEmitter} from 'events';
+import { EventEmitter } from 'events';
 import AppDispatcher from '../common/dispatcher';
 import ActionTypes from '../common/action-types';
 import Api from '../common/api';

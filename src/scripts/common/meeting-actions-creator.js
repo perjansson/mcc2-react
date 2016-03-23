@@ -5,53 +5,61 @@ const MeetingActionsCreator = {
   updateNumberOfAttendees(id, numberOfAttendees) {
     AppDispatcher.handleViewAction({
       actionType: ActionTypes.UPDATE_NUMBER_OF_ATTENDEES,
-      id: id,
-      numberOfAttendees: numberOfAttendees
-    })
+      id,
+      numberOfAttendees,
+    });
   },
 
   updateAverageHourlyRate(id, averageHourlyRate) {
     AppDispatcher.handleViewAction({
       actionType: ActionTypes.UPDATE_AVERAGE_HOURLY_RATE,
-      id: id,
-      averageHourlyRate: averageHourlyRate
-    })
+      id,
+      averageHourlyRate,
+    });
   },
 
   updateCurrency(id, currency) {
     AppDispatcher.handleViewAction({
       actionType: ActionTypes.UPDATE_CURRENCY,
-      id: id,
-      currency: currency
-    })
+      id,
+      currency,
+    });
   },
 
   startMeeting(id) {
     AppDispatcher.handleViewAction({
       actionType: ActionTypes.MEETING_STARTED,
-      id: id
-    })
+      id,
+    });
   },
 
   stopMeeting(id) {
     AppDispatcher.handleViewAction({
       actionType: ActionTypes.MEETING_STOPPED,
-      id: id
-    })
+      id,
+    });
   },
 
   getLocation(id) {
     AppDispatcher.handleViewAction({
       actionType: ActionTypes.GET_LOCATION,
-      id: id
-    })
+      id,
+    });
+  },
+
+  foundLocation(id, location) {
+    AppDispatcher.handleServerAction({
+      actionType: ActionTypes.FOUND_LOCATION,
+      id,
+      location,
+    });
   },
 
   getMeetings() {
     AppDispatcher.handleViewAction({
-      actionType: ActionTypes.GET_MEETINGS
-    })
-  }
-}
+      actionType: ActionTypes.GET_MEETINGS,
+    });
+  },
+};
 
 export default MeetingActionsCreator;

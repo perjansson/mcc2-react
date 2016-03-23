@@ -1,7 +1,8 @@
-import {EventEmitter} from 'events';
+import { EventEmitter } from 'events';
 import AppDispatcher from '../common/dispatcher';
 import Api from '../common/api';
 import ActionTypes from '../common/action-types';
+import MeetingActionsCreator from '../common/meeting-actions-creator';
 import Meeting from './meeting';
 import meetingPropertyChangeReducer from './meeting-property-change.reducer';
 import meetingStartReducer from './meeting-start.reducer';
@@ -17,7 +18,7 @@ class MeetingStore extends EventEmitter {
     super();
     this.meeting = new Meeting({
       key: 'BTC',
-      name: 'Bitcoin'
+      name: 'Bitcoin',
     });
   }
 
@@ -62,9 +63,12 @@ AppDispatcher.register((payload) => {
       meetingStore.meeting = meetingLocationWillFindReducer(meetingStore.meeting, payload.action);
       Api.getLocation()
         .then((location) => {
-          meetingStore.meeting = meetingLocationFoundReducer(meetingStore.meeting, location);
-          meetingStore.emitChange();
+          MeetingActionsCreator.foundLocation(meetingStore.meeting.id, location);
         });
+      break;
+
+    case ActionTypes.FOUND_LOCATION:
+      meetingStore.meeting = meetingLocationFoundReducer(meetingStore.meeting, payload.action);
       break;
 
     default:

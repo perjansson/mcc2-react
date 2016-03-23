@@ -1,8 +1,6 @@
 import AGStopwatch from 'agstopwatch';
 import MeetingStatus from './meeting-status';
-import {
-  Guid
-} from '../common/guid';
+import { Guid } from '../common/guid';
 import _ from 'underscore';
 
 export default class Meeting {
@@ -25,12 +23,14 @@ export default class Meeting {
     this.status = MeetingStatus.Started;
     this.id = Guid.newGuid();
     this.stopWatch.start();
+    return this;
   }
 
   stop() {
     this.status = MeetingStatus.Stopped;
     this.stopWatch.stop();
     this.cost = this.getCost();
+    return this;
   }
 
   isValid() {
@@ -66,9 +66,7 @@ export default class Meeting {
   }
 
   copy() {
-    var newMeeting = _.extend(new Meeting(), this);
-    newMeeting.version = this.version + 1;
-    return newMeeting;
+    return _.extend(new Meeting(), this);
   }
 
 }
