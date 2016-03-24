@@ -54,12 +54,6 @@ const MeetingActionsCreator = {
       location,
     });
   },
-
-  getMeetings() {
-    AppDispatcher.handleViewAction({
-      actionType: ActionTypes.GET_MEETINGS,
-    });
-  },
 };
 
 export default MeetingActionsCreator;

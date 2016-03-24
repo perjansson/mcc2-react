@@ -1,31 +1,26 @@
 import React from 'react';
-import TopListStore from './toplist.store';
-import MeetingActionsCreator from '../common/meeting-actions-creator';
+import store from './toplist.store';
+import { fetchMeetings } from './toplist.actions';
+
+let unsubscribe;
 
 export default class TopList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = this.getTopListState();
-
-    this._onChange = this.onChange.bind(this);
+    this.state = store.getState();
   }
 
   componentWillMount() {
-    TopListStore.addChangeListener(this._onChange);
-    MeetingActionsCreator.getMeetings();
+    unsubscribe = store.subscribe(() =>
+      this.setState(store.getState()) /* eslint react/no-set-state: 0 */
+    );
+
+    store.dispatch(fetchMeetings());
   }
 
   componentWillUnmount() {
-    TopListStore.removeChangeListener(this._onChange);
-  }
-
-  onChange() {
-    this.setState(this.getTopListState());
-  }
-
-  getTopListState() {
-    return { meetings: TopListStore.getMeetings() };
+    unsubscribe();
   }
 
   render() {
