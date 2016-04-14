@@ -31,14 +31,14 @@ export default class TopList extends React.Component {
             {!this.state.meetings
               ? <div className="col-xs-12 loader animated fadeIn">
                   <i className="fa fa-spinner fa-spin"></i>
-                  Getting meetings
+                  Getting meetings...
                 </div>
               : null}
 
             {this.state.meetings && !this.state.meetings.length
               ? <div className="col-xs-12 loader animated fadeIn">
                   <i className="fa fa-frown-o"></i>
-                  No meetings found
+                  No meetings found...
                 </div>
               : null}
 
